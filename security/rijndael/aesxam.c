@@ -96,7 +96,7 @@ void fillrand(char *buf, int len)
 }    
 
 int encfile(FILE *fin, FILE *fout, aes *ctx, char* fn)
-{   char            inbuf[16], outbuf[16];
+{   char            inbuf[32], outbuf[32];
     fpos_t          flen;
     unsigned long   i=0, l=0;
 
@@ -160,7 +160,7 @@ int encfile(FILE *fin, FILE *fout, aes *ctx, char* fn)
 }
 
 int decfile(FILE *fin, FILE *fout, aes *ctx, char* ifn, char* ofn)
-{   char    inbuf1[16], inbuf2[16], outbuf[16], *bp1, *bp2, *tp;
+{   char    inbuf1[32], inbuf2[32], outbuf[32], *bp1, *bp2, *tp;
     int     i, l, flen;
 
     if(fread(inbuf1, 1, 16, fin) != 16)  /* read Initialisation Vector   */
