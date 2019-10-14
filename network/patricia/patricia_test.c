@@ -54,8 +54,7 @@ struct MyNode {
 	double bar;
 };
 
-int
-main(int argc, char **argv)
+int patricia(int argc, char **argv)
 {
 	struct ptree *phead;
 	struct ptree *p,*pfind;
@@ -78,7 +77,7 @@ main(int argc, char **argv)
 	 */
 	if ((fp = fopen(argv[1], "r")) == NULL) {
 		printf("File %s doesn't seem to exist\n",argv[1]);
-		exit(0);
+		return(-1);
 	}
 
 	/*
@@ -176,8 +175,8 @@ main(int argc, char **argv)
 		//if(pfind->p_key==(addr.s_addr&pfind->p_m->pm_mask))
 		if(pfind->p_key==addr.s_addr)
 		{
-			printf("%f %08x: ", time, addr.s_addr);
-			printf("Found.\n");
+			////// printf("%f %08x: ", time, addr.s_addr);
+			////// printf("Found.\n");
 		}
 		else
 		{
@@ -195,5 +194,5 @@ main(int argc, char **argv)
 		}
 	}
 
-	exit(1);
+	return(0);
 }

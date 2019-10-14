@@ -51,7 +51,7 @@ void enqueue (int iNode, int iDist, int iPrev)
   
   if (!qNew) 
     {
-      fprintf(stderr, "Out of memory.\n");
+      fprintf(stderr, "Out of memory. Dijkstra task stopped.\n");
       exit(1);
     }
   qNew->iNode = iNode;
@@ -135,14 +135,15 @@ int dijkstra(int chStart, int chEnd)
 	    }
 	}
       
-      printf("Shortest path is %d in cost. ", rgnNodes[chEnd].iDist);
-      printf("Path is: ");
-      print_path(rgnNodes, chEnd);
-      printf("\n");
+      //printf("Shortest path is %d in cost. ", rgnNodes[chEnd].iDist);
+      //printf("Path is: ");
+      //print_path(rgnNodes, chEnd);
+      //printf("\n");
     }
 }
 
-int main(int argc, char *argv[]) {
+int dijkstra_large(int argc, char *argv[]) 
+{
   int i,j,k;
   FILE *fp;
   
@@ -168,7 +169,7 @@ int main(int argc, char *argv[]) {
 			j=j%NUM_NODES;
       dijkstra(i,j);
   }
-  exit(0);
+  return(0);
   
 
 }

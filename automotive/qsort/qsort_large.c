@@ -10,7 +10,7 @@ struct my3DVertexStruct {
   double distance;
 };
 
-int compare(const void *elem1, const void *elem2)
+int compare_large(const void *elem1, const void *elem2)
 {
   /* D = [(x1 - x2)^2 + (y1 - y2)^2 + (z1 - z2)^2]^(1/2) */
   /* sort based on distances from the origin... */
@@ -24,8 +24,8 @@ int compare(const void *elem1, const void *elem2)
 }
 
 
-int
-main(int argc, char *argv[]) {
+int qsort_large(int argc, char *argv[]) 
+{
   struct my3DVertexStruct array[MAXARRAY];
   FILE *fp;
   int i,count=0;
@@ -33,7 +33,7 @@ main(int argc, char *argv[]) {
   
   if (argc<2) {
     fprintf(stderr,"Usage: qsort_large <file>\n");
-    exit(-1);
+    return(-1);
   }
   else {
     fp = fopen(argv[1],"r");
@@ -46,10 +46,13 @@ main(int argc, char *argv[]) {
 	 count++;
     }
   }
-  printf("\nSorting %d vectors based on distance from the origin.\n\n",count);
-  qsort(array,count,sizeof(struct my3DVertexStruct),compare);
+  //printf("\nSorting %d vectors based on distance from the origin.\n\n",count);
+  qsort(array,count,sizeof(struct my3DVertexStruct),compare_large);
   
   for(i=0;i<count;i++)
-    printf("%d %d %d\n", array[i].x, array[i].y, array[i].z);
+	array[i].x;
+	array[i].y;
+	array[i].z;
+    // printf("%d %d %d\n", array[i].x, array[i].y, array[i].z);
   return 0;
 }

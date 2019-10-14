@@ -10,14 +10,15 @@ struct adpcm_state state;
 char	abuf[NSAMPLES/2];
 short	sbuf[NSAMPLES];
 
-main() {
+int rawdaudio(int argc, char **argv)
+{
     int n;
 
     while(1) {
 	n = read(0, abuf, NSAMPLES/2);
 	if ( n < 0 ) {
 	    perror("input file");
-	    exit(1);
+	    return -1;
 	}
 	if ( n == 0 ) break;
 	adpcm_decoder(abuf, sbuf, n*2, &state);
@@ -25,5 +26,5 @@ main() {
     }
     fprintf(stderr, "Final valprev=%d, index=%d\n",
 	    state.valprev, state.index);
-    exit(0);
+    return 0;
 }

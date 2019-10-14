@@ -4,6 +4,10 @@ CFLAGS = -static -O3 -g
 
 fft: ${OBJ} Makefile
 	gcc  ${CFLAGS} ${OBJ} -o fft -lm
+
+fft_h: ${OBJ} Makefile
+	gcc  -c ${CFLAGS} ${OBJ} -lm
+
 fftmisc.o: fftmisc.c
 	gcc ${CFLAGS} -c fftmisc.c
 fourierf.o: fourierf.c

@@ -28,6 +28,18 @@ ALLSRC=README adpcm.2 Makefile adpcm.h libst.h adpcm.c timing.c rawcaudio.c \
 all: adpcm.o rawcaudio rawdaudio timing
 	cp rawcaudio rawdaudio timing ../bin/
 
+all_h: adpcm.o rawcaudio_h rawdaudio_h timing_h
+	cp rawcaudio rawdaudio timing ../bin/
+
+rawcaudio_h: rawcaudio.o adpcm.o
+	$(CC) -c $(CFLAGS) rawcaudio.o adpcm.o
+
+rawdaudio_h: rawdaudio.o adpcm.o
+	$(CC) -c $(CFLAGS) rawdaudio.o adpcm.o
+
+timing_h: timing.o adpcm.o
+	$(CC) -c $(CFLAGS) timing.o adpcm.o
+
 sgi: all sgicaudio sgidaudio
 
 sun: all suncaudio sundaudio

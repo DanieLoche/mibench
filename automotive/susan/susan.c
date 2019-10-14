@@ -699,13 +699,13 @@ TOTAL_TYPE total;
     printf("Distance_thresh (%f) too big for integer arithmetic.\n",dt);
     printf("Either reduce it to <=15 or recompile with variable \"total\"\n");
     printf("as a float: see top \"defines\" section.\n");
-    exit(0);
+    return(-2);
   }
 
   if ( (2*mask_size+1>x_size) || (2*mask_size+1>y_size) )
   {
     printf("Mask size (1.5*distance_thresh+1=%d) too big for image (%dx%d).\n",mask_size,x_size,y_size);
-    exit(0);
+    return(0);
   }
 
   tmp_image = (uchar *) malloc( (x_size+mask_size*2) * (y_size+mask_size*2) );
@@ -1732,7 +1732,7 @@ corner_list[n].I=in[i*x_size+j];
 n++;
 if(n==MAX_CORNERS){
       fprintf(stderr,"Too many corners.\n");
-      exit(1);
+      return(-1);
          }}}}
 corner_list[n].info=7;
 
@@ -1949,7 +1949,7 @@ corner_list[n].dy=y/15;
 n++;
 if(n==MAX_CORNERS){
       fprintf(stderr,"Too many corners.\n");
-      exit(1);
+      return(-1);
          }}}}
 corner_list[n].info=7;
 }
@@ -1959,9 +1959,7 @@ corner_list[n].info=7;
 /* }}} */
 /* {{{ main(argc, argv) */
 
-main(argc, argv)
-  int   argc;
-  char  *argv [];
+int susan(int argc, char  *argv[])
 {
 /* {{{ vars */
 
@@ -2026,14 +2024,14 @@ CORNER_LIST corner_list;
 	case 'd': /* distance threshold */
           if (++argindex >= argc){
 	    printf ("No argument following -d\n");
-	    exit(0);}
+	    return(-1);}
 	  dt=atof(argv[argindex]);
           if (dt<0) three_by_three=1;
 	  break;
 	case 't': /* brightness threshold */
           if (++argindex >= argc){
 	    printf ("No argument following -t\n");
-	    exit(0);}
+	    return(0);}
 	  bt=atoi(argv[argindex]);
 	  break;
       }	    
@@ -2117,6 +2115,7 @@ CORNER_LIST corner_list;
 /* }}} */
 
   put_image(argv[2],in,x_size,y_size);
+  return(0);
 }
 
 /* }}} */

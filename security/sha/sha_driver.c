@@ -6,7 +6,7 @@
 #include <time.h>
 #include "sha.h"
 
-int main(int argc, char **argv)
+int sha(int argc, char **argv)
 {
     FILE *fin;
     SHA_INFO sha_info;

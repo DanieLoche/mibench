@@ -457,8 +457,7 @@ parse_switches (j_compress_ptr cinfo, int argc, char **argv,
  * The main program.
  */
 
-int
-main (int argc, char **argv)
+int cjpeg_func (int argc, char **argv)
 {
   struct jpeg_compress_struct cinfo;
   struct jpeg_error_mgr jerr;

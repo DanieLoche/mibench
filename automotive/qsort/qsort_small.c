@@ -9,7 +9,7 @@ struct myStringStruct {
   char qstring[128];
 };
 
-int compare(const void *elem1, const void *elem2)
+int compare_small(const void *elem1, const void *elem2)
 {
   int result;
   
@@ -19,15 +19,15 @@ int compare(const void *elem1, const void *elem2)
 }
 
 
-int
-main(int argc, char *argv[]) {
+int qsort_small(int argc, char *argv[]) 
+{
   struct myStringStruct array[MAXARRAY];
   FILE *fp;
   int i,count=0;
   
   if (argc<2) {
     fprintf(stderr,"Usage: qsort_small <file>\n");
-    exit(-1);
+    return(-1);
   }
   else {
     fp = fopen(argv[1],"r");
@@ -36,10 +36,11 @@ main(int argc, char *argv[]) {
 	 count++;
     }
   }
-  printf("\nSorting %d elements.\n\n",count);
-  qsort(array,count,sizeof(struct myStringStruct),compare);
+  // printf("\nSorting %d elements.\n\n",count);
+  qsort(array,count,sizeof(struct myStringStruct),compare_small);
   
   for(i=0;i<count;i++)
-    printf("%s\n", array[i].qstring);
+	array[i].qstring;
+    // printf("%s\n", array[i].qstring);
   return 0;
 }

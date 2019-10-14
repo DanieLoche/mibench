@@ -18,7 +18,7 @@ short pcmdata_2[DATASIZE];
 
 struct adpcm_state coder_1_state, coder_2_state, decoder_state;
 
-main() {
+int timingAdpcm() {
     int i;
     int t0, t1, t2, t3;
     int count = 0, count2;
@@ -47,5 +47,5 @@ main() {
 	   count*DATASIZE/(1000*(t3-t2-t1+t0)));
     printf("  (coded&decoded %d blocks of %d samples in %d seconds)\n",
 	   count, DATASIZE, t3-t2);
-    exit(0);
+    return 0;
 }

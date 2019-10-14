@@ -49,7 +49,7 @@ RM= rm -f
 # file rename command
 MV= mv
 # library (.a) file creation command
-AR= ar rc
+AR= ar rcs
 # second step in .a creation (use "touch" if not needed)
 AR2= ranlib
 # installation program
@@ -107,6 +107,7 @@ DLIBOBJECTS= jdapimin.o jdapistd.o jdtrans.o jdatasrc.o jdmaster.o \
         jdpostct.o jddctmgr.o jidctfst.o jidctflt.o jidctint.o jidctred.o \
         jdsample.o jdcolor.o jquant1.o jquant2.o jdmerge.o
 # These objectfiles are included in libjpeg.a
+LIBOBJECTS_H= $(CLIBOBJECTS) $(DLIBOBJECTS) $(COMOBJECTS) $(COBJECTS) $(DOBJECTS) $(TROBJECTS)
 LIBOBJECTS= $(CLIBOBJECTS) $(DLIBOBJECTS) $(COMOBJECTS)
 # object files for sample applications (excluding library files)
 COBJECTS= cjpeg.o rdppm.o rdgif.o rdtarga.o rdrle.o rdbmp.o rdswitch.o \
@@ -117,6 +118,8 @@ TROBJECTS= jpegtran.o rdswitch.o cdjpeg.o
 
 
 all:  libjpeg.a cjpeg djpeg jpegtran rdjpgcom wrjpgcom
+
+all_h:  jpeg.a
 
 # This rule causes ansi2knr to be invoked.
 # .c.o:
@@ -133,6 +136,11 @@ libjpeg.a:  $(LIBOBJECTS)
 	$(AR) libjpeg.a  $(LIBOBJECTS)
 	$(AR2) libjpeg.a
 
+jpeg.a:  $(LIBOBJECTS_H)
+	$(RM) libjpeg.a
+	$(AR) libjpeg.a  $(LIBOBJECTS_H)
+	$(AR2) libjpeg.a
+
 cjpeg: $(COBJECTS) libjpeg.a
 	$(LN) $(LDFLAGS) -o cjpeg $(COBJECTS) libjpeg.a $(LDLIBS)
 
@@ -147,6 +155,21 @@ rdjpgcom: rdjpgcom.o
 
 wrjpgcom: wrjpgcom.o
 	$(LN) $(LDFLAGS) -o wrjpgcom wrjpgcom.o $(LDLIBS)
+
+cjpeg_h: $(COBJECTS) libjpeg.a
+	$(LN) -c $(LDFLAGS) $(COBJECTS) libjpeg.a $(LDLIBS)
+
+djpeg_h: $(DOBJECTS) libjpeg.a
+	$(LN) -c $(LDFLAGS) $(DOBJECTS) libjpeg.a $(LDLIBS)
+
+jpegtran_h: $(TROBJECTS) libjpeg.a
+	$(LN) -c $(LDFLAGS) $(TROBJECTS) libjpeg.a $(LDLIBS)
+
+rdjpgcom_h: rdjpgcom.o
+	$(LN) -c $(LDFLAGS) rdjpgcom.o $(LDLIBS)
+
+wrjpgcom_h: wrjpgcom.o
+	$(LN) -c $(LDFLAGS) wrjpgcom.o $(LDLIBS)
 
 jconfig.h: jconfig.doc
 	echo You must prepare a system-dependent jconfig.h file.

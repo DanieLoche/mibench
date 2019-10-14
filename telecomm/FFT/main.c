@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-int main(int argc, char *argv[]) {
+int fft(int argc, char *argv[]) {
 	unsigned MAXSIZE;
 	unsigned MAXWAVES;
 	unsigned i,j;
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 		printf("-i performs an inverse fft\n");
 		printf("make <waves> random sinusoids");
 		printf("<length> is the number of samples\n");
-		exit(-1);
+		return -1;
 	}
 	else if (argc==4)
 		invfft = !strncmp(argv[3],"-i",2);
@@ -80,7 +80,7 @@ printf("ImagOut:\n");
  free(ImagOut);
  free(coeff);
  free(amp);
- exit(0);
+ return 0;
 
 
 }

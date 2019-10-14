@@ -268,7 +268,7 @@ OSMAC   = 0
 DBFIX   = 0
 
 USESTAT = 1
-SAFEDFT = 0
+SAFEDFT = 1
 
 DEBUGGING = 0
 TRACING =
@@ -276,10 +276,10 @@ TRACING =
 # DEBUGGING = 1
 # TRACING = -g
 
-BINDIR	= /usr/staff/jeff/bin
-LIBDIR	= /usr/staff/jeff/lout.lib
-DOCDIR	= /usr/staff/jeff/lout.doc
-MANDIR	= /usr/staff/jeff/lout.man
+BINDIR	= ~/Bureau/jeff/bin
+LIBDIR	= ~/Bureau/jeff/lout.lib
+DOCDIR	= ~/Bureau/jeff/lout.doc
+MANDIR	= ~/Bureau/jeff/lout.man
 
 LIBFONT = font
 LIBMAPS = maps
@@ -291,7 +291,7 @@ LIBLOCA = locale
 CHARIN	= 1
 CHAROUT	= 0
 
-USELOC	= 1
+USELOC	= 0
 LOC_FR	= fr
 LOC_DE	= de
 
@@ -343,6 +343,9 @@ OBJS	= z01.o z02.o z03.o z04.o z05.o z06.o z07.o z08.o	\
 lout:	$(OBJS)
 	$(LD) -o lout $(OBJS) $(ZLIB) -lm
 	chmod a+x lout
+
+lout_h:	$(OBJS)
+	$(LD) -c $(OBJS) $(ZLIB) -lm
 
 $(OBJS): externs.h
 

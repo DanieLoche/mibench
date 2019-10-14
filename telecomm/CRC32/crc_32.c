@@ -171,12 +171,11 @@ DWORD crc32buf(char *buf, size_t len)
       
 }
 
-int
-main(int argc, char *argv[])
+int crc(int argc, char *argv[])
 {
       DWORD crc;
       long charcnt;
-      register errors = 0;
+      int errors = 0;
 
       while(--argc > 0)
       {

@@ -195,7 +195,7 @@ static FULL_CHAR *GetArg(char *argv[], int argc, int *i)
 /*                                                                           */
 /*****************************************************************************/
 
-int main(int argc, char *argv[])
+int typeset_func(int argc, char *argv[])
 { int i, len;  FULL_CHAR *arg;
   OBJECT t, y, res, s;			/* current token, parser output      */
   BOOLEAN stdin_seen;			/* TRUE when stdin file seen         */

@@ -415,8 +415,7 @@ COM_handler (j_decompress_ptr cinfo)
  * The main program.
  */
 
-int
-main (int argc, char **argv)
+int djpeg_func (int argc, char **argv)
 {
   struct jpeg_decompress_struct cinfo;
   struct jpeg_error_mgr jerr;

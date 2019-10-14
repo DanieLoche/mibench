@@ -48,6 +48,7 @@ GENERAL=Makefile Makefile.ssl Makefile.uni asm bf_locl.org README \
 	COPYRIGHT INSTALL blowfish.doc
 
 TESTING=    bftest bfspeed bf
+TESTING_H=    bftest_h bfspeed_h bf_h
 TESTING_SRC=bftest.c bfspeed.c bf.c
 HEADERS=bf_locl.h blowfish.h bf_pi.h
 
@@ -56,6 +57,8 @@ ALL=	$(GENERAL) $(TESTING_SRC) $(LIBSRC) $(HEADERS)
 BLIB=	libblowfish.a
 
 all: $(BLIB) $(TESTING)
+
+all_h: $(BLIB) $(TESTING_H)
 
 cc:
 	$(MAKE) CC=cc CFLAGS="-O $(OPTS) $(CFLAG)" all
@@ -98,7 +101,7 @@ test:	all
 
 $(BLIB): $(LIBOBJ)
 	/bin/rm -f $(BLIB)
-	ar cr $(BLIB) $(LIBOBJ)
+	ar rcs $(BLIB) $(LIBOBJ)
 	-if test -s ranlib; then ssbig-na-sstrix-ranlib $(BLIB); \
 	else if test -s ranlib; then ssbig-na-sstrix-ranlib $(BLIB); \
 	else exit 0; fi; fi
@@ -111,6 +114,15 @@ bftest: bftest.o $(BLIB)
 
 bfspeed: bfspeed.o $(BLIB)
 	$(CC) $(CFLAGS) -o bfspeed bfspeed.o $(BLIB)
+
+bf_h: bf.o $(BLIB)
+	$(CC) -c $(CFLAGS) bf.o $(BLIB)
+
+bftest_h: bftest.o $(BLIB)
+	$(CC) -c $(CFLAGS) bftest.o $(BLIB)
+
+bfspeed_h: bfspeed.o $(BLIB)
+	$(CC) -c $(CFLAGS) bfspeed.o $(BLIB)
 
 tags:
 	ctags $(TESTING_SRC) $(LIBBF)

@@ -738,7 +738,7 @@ static void set_format P1((f), struct fmtdesc * f)
 	f_format = f;
 }
 
-int main P2((ac, av), int ac, char **av)
+int gsm_func P2((ac, av), int ac, char **av)
 {
 	int  		opt;
 	extern int	optind;
@@ -770,7 +770,7 @@ int main P2((ac, av), int ac, char **av)
 		fprintf(stderr,
 			"Usage: %s [-fcpdhvuaslF] [files...] (-h for help)\n",
 			progname);
-		exit(1);
+		return -1;
 	}
 
 	f_precious |= f_cat;
@@ -783,5 +783,5 @@ int main P2((ac, av), int ac, char **av)
 	if (ac <= 0) process( (char *)0 );
 	else while (ac--) process( *av++ );
 
-	exit(0);
+	return 0;
 }

@@ -90,7 +90,7 @@ SHELL		= /bin/sh
 LN		= ln
 BASENAME 	= basename
 AR		= ar
-ARFLAGS		= cr
+ARFLAGS		= rcs
 RMFLAGS		=
 FIND		= find
 COMPRESS 	= compress
@@ -138,6 +138,10 @@ LIBGSM	= $(LIB)/libgsm.a
 TOAST	= $(BIN)/toast
 UNTOAST	= $(BIN)/untoast
 TCAT	= $(BIN)/tcat
+
+TOAST_H	   = $(BIN)/toast_h
+UNTOAST_H  = $(BIN)/untoast_h
+TCAT_H	   = $(BIN)/tcat_h
 
 # Headers
 
@@ -272,6 +276,9 @@ TOAST_INSTALL_TARGETS =	\
 all:		$(LIBGSM) $(TOAST) $(TCAT) $(UNTOAST)
 		@-echo $(ROOT): Done.
 
+all_h:		$(LIBGSM) $(TOAST_H) $(TCAT_H) $(UNTOAST_H)
+		@-echo $(ROOT): Done.
+
 tst:		$(TST)/lin2cod $(TST)/cod2lin $(TOAST) $(TST)/test-result
 		@-echo tst: Done.
 
@@ -307,6 +314,19 @@ $(UNTOAST):	$(BIN) $(TOAST)
 $(TCAT):	$(BIN) $(TOAST)
 		-rm $(RMFLAGS) $(TCAT)
 		$(LN) $(TOAST) $(TCAT)
+
+$(TOAST)_h:	$(BIN) $(TOAST_OBJECTS) $(LIBGSM)
+		$(LD) -c $(LFLAGS) $(TOAST_OBJECTS) $(LIBGSM) $(LDLIB)
+
+$(UNTOAST)_h:	$(BIN) $(TOAST)
+		-rm $(RMFLAGS) $(UNTOAST)
+		$(LN) $(TOAST) $(UNTOAST)
+
+$(TCAT)_h:	$(BIN) $(TOAST)
+		-rm $(RMFLAGS) $(TCAT)
+		$(LN) $(TOAST) $(TCAT)
+
+
 
 
 # The local bin and lib directories

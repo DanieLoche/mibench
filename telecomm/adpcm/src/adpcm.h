@@ -4,6 +4,8 @@
 ** Version 1.0, 7-Jul-92.
 */
 
+#include <stdlib.h>
+
 struct adpcm_state {
     short	valprev;	/* Previous output value */
     char	index;		/* Index into stepsize table */

@@ -69,8 +69,7 @@ static int stepsizeTable[89] = {
     15289, 16818, 18500, 20350, 22385, 24623, 27086, 29794, 32767
 };
     
-void
-adpcm_coder(indata, outdata, len, state)
+void adpcm_coder(indata, outdata, len, state)
     short indata[];
     char outdata[];
     int len;
@@ -172,8 +171,7 @@ adpcm_coder(indata, outdata, len, state)
     state->index = index;
 }
 
-void
-adpcm_decoder(indata, outdata, len, state)
+void adpcm_decoder(indata, outdata, len, state)
     char indata[];
     short outdata[];
     int len;

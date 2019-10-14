@@ -51,7 +51,7 @@ void enqueue (int iNode, int iDist, int iPrev)
   
   if (!qNew) 
     {
-      fprintf(stderr, "Out of memory.\n");
+      fprintf(stderr, "Out of memory. Dijkstra task stopped.\n");
       exit(1);
     }
   qNew->iNode = iNode;
@@ -135,14 +135,15 @@ int dijkstra(int chStart, int chEnd)
 	    }
 	}
       
-      printf("Shortest path is %d in cost. ", rgnNodes[chEnd].iDist);
-      printf("Path is: ");
-      print_path(rgnNodes, chEnd);
-      printf("\n");
+      //printf("Shortest path is %d in cost. ", rgnNodes[chEnd].iDist);
+      //printf("Path is: ");
+      //print_path(rgnNodes, chEnd);
+      //printf("\n");
     }
 }
 
-int main(int argc, char *argv[]) {
+int dijkstra_small(int argc, char *argv[]) 
+{
   int i,j,k;
   FILE *fp;
   
@@ -168,7 +169,39 @@ int main(int argc, char *argv[]) {
 			j=j%NUM_NODES;
       dijkstra(i,j);
   }
-  exit(0);
+  return(0);
+  
+
+}
+
+int dijkstra_large(int argc, char *argv[]) 
+{
+  int i,j,k;
+  FILE *fp;
+  
+  if (argc<2) {
+    fprintf(stderr, "Usage: dijkstra <filename>\n");
+    fprintf(stderr, "Only supports matrix size is #define'd.\n");
+  }
+
+  /* open the adjacency matrix file */
+  fp = fopen (argv[1],"r");
+
+  /* make a fully connected matrix */
+  for (i=0;i<NUM_NODES;i++) {
+    for (j=0;j<NUM_NODES;j++) {
+      /* make it more sparce */
+      fscanf(fp,"%d",&k);
+			AdjMatrix[i][j]= k;
+    }
+  }
+
+  /* finds 10 shortest paths between nodes */
+  for (i=0,j=NUM_NODES/2;i<100;i++,j++) {
+			j=j%NUM_NODES;
+      dijkstra(i,j);
+  }
+  return(0);
   
 
 }

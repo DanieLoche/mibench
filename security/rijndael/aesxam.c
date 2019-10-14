@@ -97,7 +97,7 @@ void fillrand(char *buf, int len)
 
 int encfile(FILE *fin, FILE *fout, aes *ctx, char* fn)
 {   char            inbuf[32], outbuf[32];
-    fpos_t          flen;
+     fpos_t          flen;
     unsigned long   i=0, l=0;
 
     fillrand(outbuf, 16);           /* set an IV for CBC mode           */
@@ -108,7 +108,7 @@ int encfile(FILE *fin, FILE *fout, aes *ctx, char* fn)
     fillrand(inbuf, 1);             /* make top 4 bits of a byte random */
     l = 15;                         /* and store the length of the last */
                                     /* block in the lower 4 bits        */
-    inbuf[0] = ((char)flen & 15) | (inbuf[0] & ~15);
+    inbuf[0] = ((char)flen.__pos & 15) | (inbuf[0] & ~15);
 
     while(!feof(fin))               /* loop to encrypt the input file   */
     {                               /* input 1st 16 bytes to buf[1..16] */
@@ -123,7 +123,7 @@ int encfile(FILE *fin, FILE *fout, aes *ctx, char* fn)
 
         if(fwrite(outbuf, 1, 16, fout) != 16)
         {
-            printf("Error writing to output file: %s\n", fn);
+            fprintf(stderr,"Error writing to output file: %s\n", fn);
             return -7;
         }
                                     /* in all but first round read 16   */
@@ -151,7 +151,7 @@ int encfile(FILE *fin, FILE *fout, aes *ctx, char* fn)
 
         if(fwrite(outbuf, 1, 16, fout) != 16)
         {
-            printf("Error writing to output file: %s\n", fn);
+            fprintf(stderr,"Error writing to output file: %s\n", fn);
             return -8;
         }
     }
@@ -165,7 +165,7 @@ int decfile(FILE *fin, FILE *fout, aes *ctx, char* ifn, char* ofn)
 
     if(fread(inbuf1, 1, 16, fin) != 16)  /* read Initialisation Vector   */
     {
-        printf("Error reading from input file: %s\n", ifn);
+        fprintf(stderr,"Error reading from input file: %s\n", ifn);
         return 9;
     }
 
@@ -173,7 +173,7 @@ int decfile(FILE *fin, FILE *fout, aes *ctx, char* ifn, char* ofn)
 
     if(i && i != 16)
     {
-        printf("\nThe input file is corrupt");
+        fprintf(stderr,"\nThe input file is corrupt");
         return -10;
     }
 
@@ -199,7 +199,7 @@ int decfile(FILE *fin, FILE *fout, aes *ctx, char* ifn, char* ofn)
          
         if(fwrite(outbuf + 16 - l, 1, l, fout) != (unsigned long)l)
         {
-            printf("Error writing to output file: %s\n", ofn);
+            fprintf(stderr,"Error writing to output file: %s\n", ofn);
             return -11;
         }
 
@@ -224,14 +224,14 @@ int decfile(FILE *fin, FILE *fout, aes *ctx, char* ifn, char* ofn)
     if(flen)
         if(fwrite(outbuf + l, 1, flen, fout) != (unsigned long)flen)
         {
-            printf("Error writing to output file: %s\n", ofn);
+            fprintf(stderr,"Error writing to output file: %s\n", ofn);
             return -12;
         }
 
     return 0;
 }
 
-int main(int argc, char *argv[])
+int rijndael(int argc, char *argv[])
 {   FILE    *fin = 0, *fout = 0;
     char    *cp, ch, key[32];
     int     i=0, by=0, key_len=0, err = 0;
@@ -239,7 +239,7 @@ int main(int argc, char *argv[])
 
     if(argc != 5 || (toupper(*argv[3]) != 'D' && toupper(*argv[3]) != 'E'))
     {
-        printf("usage: rijndael in_filename out_filename [d/e] key_in_hex\n"); 
+        fprintf(stderr,"usage: rijndael in_filename out_filename [d/e] key_in_hex\n"); 
         err = -1; goto exit;
     }
 
@@ -255,7 +255,7 @@ int main(int argc, char *argv[])
             by = (by << 4) + ch - 'A' + 10;
         else                            /* error if not hexadecimal     */
         {
-            printf("key must be in hexadecimal notation\n"); 
+            fprintf(stderr,"key must be in hexadecimal notation\n"); 
             err = -2; goto exit;
         }
         
@@ -266,12 +266,12 @@ int main(int argc, char *argv[])
 
     if(*cp)
     {
-        printf("The key value is too long\n"); 
+        fprintf(stderr,"The key value is too long\n"); 
         err = -3; goto exit;
     }
     else if(i < 32 || (i & 15))
     {
-        printf("The key length must be 32, 48 or 64 hexadecimal digits\n");
+        fprintf(stderr,"The key length must be 32, 48 or 64 hexadecimal digits\n");
         err = -4; goto exit;
     }
 
@@ -279,13 +279,13 @@ int main(int argc, char *argv[])
 
     if(!(fin = fopen(argv[1], "rb")))   /* try to open the input file */
     {
-        printf("The input file: %s could not be opened\n", argv[1]); 
+        fprintf(stderr,"The input file: %s could not be opened\n", argv[1]); 
         err = -5; goto exit;
     }
 
     if(!(fout = fopen(argv[2], "wb")))  /* try to open the output file */
     {
-        printf("The output file: %s could not be opened\n", argv[1]); 
+        fprintf(stderr,"The output file: %s could not be opened\n", argv[1]); 
         err = -6; goto exit;
     }
 
